@@ -26,7 +26,7 @@
 // normal size or plus?
 #define ANCYUBIC_KOSSEL_PLUS
 // Anycubic Probe version 1 or 2 see README.md; 0 for no probe
-#define ANYCUBIC_PROBE_VERSION 2
+#define ANYCUBIC_PROBE_VERSION 0 //2 mit der anderen Probe
 // Heated Bed:
 // 0 ... no heated bed
 // 1 ... aluminium heated bed with "BuildTak-like" sticker
@@ -555,9 +555,9 @@
   #define DELTA_CALIBRATION_MENU
 
   // uncomment to add G33 Delta Auto-Calibration (Enable EEPROM_SETTINGS to store results)
-  #if ANYCUBIC_PROBE_VERSION > 0
+  //#if ANYCUBIC_PROBE_VERSION > 0
     #define DELTA_AUTO_CALIBRATION
-  #endif
+  //#endif
 
   // NOTE NB all values for DELTA_* values MUST be floating point, so always have a decimal point in them
 
@@ -623,9 +623,9 @@
 // extra connectors. Leave undefined any used for non-endstop and non-probe purposes.
 //#define USE_XMIN_PLUG
 //#define USE_YMIN_PLUG
-#if ANYCUBIC_PROBE_VERSION > 0
+//#if ANYCUBIC_PROBE_VERSION > 0
   #define USE_ZMIN_PLUG // a Z probe
-#endif
+//#endif
 #define USE_XMAX_PLUG
 #define USE_YMAX_PLUG
 #define USE_ZMAX_PLUG
@@ -646,11 +646,11 @@
 // Mechanical endstop with COM to ground and NC to Signal uses "false" here (most common setup).
 #define X_MIN_ENDSTOP_INVERTING false  // set to true to invert the logic of the endstop.
 #define Y_MIN_ENDSTOP_INVERTING false  // set to true to invert the logic of the endstop.
-#define Z_MIN_ENDSTOP_INVERTING true  // set to true to invert the logic of the endstop.
+#define Z_MIN_ENDSTOP_INVERTING false  // set to true to invert the logic of the endstop.
 #define X_MAX_ENDSTOP_INVERTING false  // set to true to invert the logic of the endstop.
 #define Y_MAX_ENDSTOP_INVERTING false  // set to true to invert the logic of the endstop.
 #define Z_MAX_ENDSTOP_INVERTING false  // set to true to invert the logic of the endstop.
-#define Z_MIN_PROBE_ENDSTOP_INVERTING true  // set to true to invert the logic of the probe.
+#define Z_MIN_PROBE_ENDSTOP_INVERTING false // set to true to invert the logic of the probe.
 
 /**
  * Stepper Drivers
@@ -799,9 +799,9 @@
  *
  * Enable this option for a probe connected to the Z Min endstop pin.
  */
-#if ANYCUBIC_PROBE_VERSION > 0
+//#if ANYCUBIC_PROBE_VERSION > 0
   #define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
-#endif
+//#endif
 
 /**
  * Z_MIN_PROBE_ENDSTOP
@@ -836,10 +836,10 @@
  * Use G29 repeatedly, adjusting the Z height at each point with movement commands
  * or (with LCD_BED_LEVELING) the LCD controller.
  */
-#if ANYCUBIC_PROBE_VERSION == 0
-  #define PROBE_MANUALLY
-  #define MANUAL_PROBE_START_Z 1.5
-#endif
+//#if ANYCUBIC_PROBE_VERSION == 0
+//  #define PROBE_MANUALLY
+//  #define MANUAL_PROBE_START_Z 1.5
+//#endif
 
 /**
  * A Fix-Mounted Probe either doesn't deploy or needs manual deployment.
@@ -858,7 +858,7 @@
 /**
  * The BLTouch probe uses a Hall effect sensor and emulates a servo.
  */
-//#define BLTOUCH
+#define BLTOUCH
 #if ENABLED(BLTOUCH)
   //#define BLTOUCH_DELAY 375   // (ms) Enable and increase if needed
 #endif
@@ -907,19 +907,23 @@
  *      O-- FRONT --+
  *    (0,0)
  */
-#define X_PROBE_OFFSET_FROM_EXTRUDER 0     // X offset: -left  +right  [of the nozzle]
-#define Y_PROBE_OFFSET_FROM_EXTRUDER 0     // Y offset: -front +behind [the nozzle]
 
 #if ANYCUBIC_PROBE_VERSION == 0
   #define Z_PROBE_OFFSET_FROM_EXTRUDER 0     // Z offset: -below +above  [the nozzle]
 #elif ANYCUBIC_PROBE_VERSION == 1
   #define Z_PROBE_OFFSET_FROM_EXTRUDER -19.0 // Z offset: -below +above  [the nozzle]
 #else
+  #define X_PROBE_OFFSET_FROM_EXTRUDER 0     // X offset: -left  +right  [of the nozzle]
+  #define Y_PROBE_OFFSET_FROM_EXTRUDER 0     // Y offset: -front +behind [the nozzle]
   #define Z_PROBE_OFFSET_FROM_EXTRUDER -16.8 // Z offset: -below +above  [the nozzle]
 #endif
 
+#define X_PROBE_OFFSET_FROM_EXTRUDER +33     // X offset: -left  +right  [of the nozzle]
+#define Y_PROBE_OFFSET_FROM_EXTRUDER +26     // Y offset: -front +behind [the nozzle]
+#define Z_PROBE_OFFSET_FROM_EXTRUDER -2      // Z offset: -below +above  [the nozzle]
+
 // Certain types of probes need to stay away from edges
-#define MIN_PROBE_EDGE 20
+#define MIN_PROBE_EDGE 35
 
 // X and Y axis travel speed (mm/m) between probes
 #define XY_PROBE_SPEED 6000
@@ -996,7 +1000,7 @@
  * Example: `M851 Z-5` with a CLEARANCE of 4  =>  9mm from bed to nozzle.
  *     But: `M851 Z+1` with a CLEARANCE of 2  =>  2mm from bed to nozzle.
  */
-#define Z_CLEARANCE_DEPLOY_PROBE   10 // Z Clearance for Deploy/Stow
+#define Z_CLEARANCE_DEPLOY_PROBE   50 // Z Clearance for Deploy/Stow     eigentlci 10
 #define Z_CLEARANCE_BETWEEN_PROBES 25 // Z Clearance between probe points
 #define Z_CLEARANCE_MULTI_PROBE    25 // Z Clearance between multiple probes
 #define Z_AFTER_PROBING            30 // Z position after probing is done
@@ -1008,9 +1012,9 @@
 #define Z_PROBE_OFFSET_RANGE_MAX 20
 
 // Enable the M48 repeatability test to test probe accuracy
-#if ANYCUBIC_PROBE_VERSION > 0
+//#if ANYCUBIC_PROBE_VERSION > 0
   #define Z_MIN_PROBE_REPEATABILITY_TEST
-#endif
+//#endif
 
 // For Inverting Stepper Enable Pins (Active Low) use 0, Non Inverting (Active High) use 1
 // :{ 0:'Low', 1:'High' }
@@ -1161,7 +1165,8 @@
  *   With an LCD controller the process is guided step-by-step.
  */
 #if ANYCUBIC_PROBE_VERSION == 0
-  #define AUTO_BED_LEVELING_3POINT
+  //#define AUTO_BED_LEVELING_3POINT
+  #define AUTO_BED_LEVELING_BILINEAR
 #else
 //#define AUTO_BED_LEVELING_LINEAR
   #define AUTO_BED_LEVELING_BILINEAR
@@ -1214,10 +1219,18 @@
   #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
   // Set the boundaries for probing (where the probe can reach).
-  #define LEFT_PROBE_BED_POSITION -(DELTA_PRINTABLE_RADIUS -(MIN_PROBE_EDGE))
-  #define RIGHT_PROBE_BED_POSITION DELTA_PRINTABLE_RADIUS -(MIN_PROBE_EDGE)
-  #define FRONT_PROBE_BED_POSITION -(DELTA_PRINTABLE_RADIUS -(MIN_PROBE_EDGE))
-  #define BACK_PROBE_BED_POSITION DELTA_PRINTABLE_RADIUS -(MIN_PROBE_EDGE)
+  //#define DELTA_PROBEABLE_RADIUS_NEU (DELTA_PRINTABLE_RADIUS - 50)
+  //#define LEFT_PROBE_BED_POSITION -(DELTA_PRINTABLE_RADIUS -(MIN_PROBE_EDGE))
+  //#define RIGHT_PROBE_BED_POSITION DELTA_PRINTABLE_RADIUS -(MIN_PROBE_EDGE)
+  //#define FRONT_PROBE_BED_POSITION -(DELTA_PRINTABLE_RADIUS -(MIN_PROBE_EDGE))
+  //#define BACK_PROBE_BED_POSITION DELTA_PRINTABLE_RADIUS -(MIN_PROBE_EDGE)
+
+  #define SAFETY_MARGIN 20
+  //#define DELTA_PROBEABLE_RADIUS (DELTA_PRINTABLE_RADIUS - sqrt(sq(X_PROBE_OFFSET_FROM_EXTRUDER) + sq(Y_PROBE_OFFSET_FROM_EXTRUDER)) - SAFETY_MARGIN)
+  #define LEFT_PROBE_BED_POSITION -(DELTA_CALIBRATION_RADIUS - 10) //Hier wären vllt. auch 5 möglich
+  #define RIGHT_PROBE_BED_POSITION (DELTA_CALIBRATION_RADIUS - 10)
+  #define FRONT_PROBE_BED_POSITION -(DELTA_CALIBRATION_RADIUS - 10)
+  #define BACK_PROBE_BED_POSITION (DELTA_CALIBRATION_RADIUS - 10)
 
   // Probe along the Y axis, advancing X after each column
   //#define PROBE_Y_FIRST
@@ -1616,7 +1629,6 @@
  *
  */
 #define SDSUPPORT
-
 /**
  * SD CARD: SPI SPEED
  *
